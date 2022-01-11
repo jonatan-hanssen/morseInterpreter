@@ -13,13 +13,17 @@
 // seperates letters
 #define pauseLengthInMs 400
 
-int dashLength;
-int consecOne; // number of consecutive ones
+int dashLength; // number of consecutive ones needed for a dash
+int consecOne = 0; // number of consecutive ones currently
 
-int pauseLength;
-int consecZero; // number of consecutive zeros
-// probably no morse letter is longer than 10 symbols
-char morseWord[10];
+int pauseLength; // number of consecutive ones needed for a pause
+int consecZero = 0; // number of consecutive zeros
+// probably no morse letter is longer than 10 symbols.
+// We set this to only 2's so that we know when a letter has ended.
+// A finished letter may look like this: [0,1,0,2,2,2,2,2,2,2]
+// 0 is a dot and 1 is a dash
+int morseWord[10] {2,2,2,2,2,2,2,2,2,2};
+int morseWordCounter = 0;
 
 void setup() {
 	// pin setup
@@ -33,7 +37,21 @@ void setup() {
 }
 
 void loop() {
+	if (digitalRead(buttonInputPin) == 1) {
+		// if this is true that must mean that we just changed from
+		// not holding to holding the button
+		if (consecZero > 0) {
 
-	Serial.print(digitalRead(buttonInputPin));
+		}
+		consecOne += 1;
+	}
+	else {
+		// if this is true that must mean that we just changed from
+		// holding to not holding the button
+		if (consecOne > 0) {
+
+		}
+		consecZero += 1;
+	}
 	delay(pollRate);
 }
