@@ -22,7 +22,7 @@ int consecZero = 0; // number of consecutive zeros
 // We set this to only 2's so that we know when a letter has ended.
 // A finished letter may look like this: [0,1,0,2,2,2,2,2,2,2]
 // 0 is a dot and 1 is a dash
-int morseWord[10] {2,2,2,2,2,2,2,2,2,2};
+char morseWord[10] {2,2,2,2,2,2,2,2,2,2};
 int morseWordCounter = 0;
 
 void setup() {
@@ -38,18 +38,24 @@ void setup() {
 
 void loop() {
 	if (digitalRead(buttonInputPin) == 1) {
-		// if this is true that must mean that we just changed from
-		// not holding to holding the button
-		if (consecZero > 0) {
-
-		}
-		consecOne += 1;
+		consecOne++;
 	}
 	else {
 		// if this is true that must mean that we just changed from
 		// holding to not holding the button
 		if (consecOne > 0) {
-
+			// we must now check if it was a dot or a dash, but first
+			// we must check if we have exceeded the number of dots
+			// and dashes for any valid morse letter
+			if (morseWordCounter < 10) {
+				Serial.print(morseWord);
+				// we reset the morseWord array after printing it
+				for (int i = 1; i < 10; i++) {
+					morseWord[i] = 2;
+				}
+			}
+			else {
+			}
 		}
 		consecZero += 1;
 	}
