@@ -1,10 +1,13 @@
+#define buttonInputPin 2
+#define debugPin 13
+
 void setup() {
-	pinMode(13,OUTPUT); // debug pin
-	pinMode(2,INPUT); // the pin that reads the button
+	pinMode(debugPin,OUTPUT);
+	pinMode(buttonInputPin,INPUT);
 	Serial.begin(9600);
 }
 
 void loop() {
-	Serial.print(digitalRead(2));
+	Serial.print(digitalRead(buttonInputPin));
 	delay(100);
 }
