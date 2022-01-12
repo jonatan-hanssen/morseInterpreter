@@ -22,8 +22,37 @@ int consecZero = 0; // number of consecutive zeros
 // We set this to only 2's so that we know when a letter has ended.
 // A finished letter may look like this: [0,1,0,2,2,2,2,2,2,2]
 // 0 is a dot and 1 is a dash
-char morseWord[10] {2,2,2,2,2,2,2,2,2,2};
-int morseWordCounter = 0;
+String morseWord = "";
+
+
+String morseLUT[26][2] = {
+	{".-","A"},
+	{"-...","B"},
+	{"-.-.","C"},
+	{"-..","D"},
+	{".","E"},
+	{"..-.","F"},
+	{"--.","G"},
+	{"....","H"},
+	{"..","I"},
+	{".---","J"},
+	{"-.-","K"},
+	{".-..","L"},
+	{"--","M"},
+	{"-.","N"},
+	{"---","O"},
+	{".--.","P"},
+	{"--.-","Q"},
+	{".-.","R"},
+	{"...","S"},
+	{"-","T"},
+	{"..-","U"},
+	{"...-","V"},
+	{".--","W"},
+	{"-..-","X"},
+	{"-.--","Y"},
+	{"--..","Z"},
+	};
 
 void setup() {
 	// pin setup
@@ -44,20 +73,22 @@ void loop() {
 		// if this is true that must mean that we just changed from
 		// holding to not holding the button
 		if (consecOne > 0) {
-			// we must now check if it was a dot or a dash, but first
-			// we must check if we have exceeded the number of dots
-			// and dashes for any valid morse letter
-			if (morseWordCounter < 10) {
-				Serial.print(morseWord);
-				// we reset the morseWord array after printing it
-				for (int i = 1; i < 10; i++) {
-					morseWord[i] = 2;
-				}
+			if (consecOne > dashLength) {
+				morseWord += "-";
 			}
 			else {
+				morseWord += ".";
 			}
+			consecOne = 0;
 		}
 		consecZero += 1;
+		if (consecZero > pauseLength) {
+			Serial.print(morseWord);
+			morseWord = "";
+		}
 	}
 	delay(pollRate);
+}
+void outPutSymbol(String morseWord) {
+
 }
