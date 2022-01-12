@@ -18,13 +18,10 @@ int consecOne = 0; // number of consecutive ones currently
 
 int pauseLength; // number of consecutive ones needed for a pause
 int consecZero = 0; // number of consecutive zeros
-// probably no morse letter is longer than 10 symbols.
-// We set this to only 2's so that we know when a letter has ended.
-// A finished letter may look like this: [0,1,0,2,2,2,2,2,2,2]
-// 0 is a dot and 1 is a dash
 String morseWord = "";
 
-
+// I thought about using a hashtable, which makes sense and in theory is
+// faster but probably uses way to much memory for such a small list
 String morseLUT[26][2] = {
 	{".-","A"},
 	{"-...","B"},
@@ -52,14 +49,13 @@ String morseLUT[26][2] = {
 	{"-..-","X"},
 	{"-.--","Y"},
 	{"--..","Z"},
-	};
+};
 
 void setup() {
 	// pin setup
 	pinMode(debugPin,OUTPUT);
 	pinMode(buttonInputPin,INPUT);
 	Serial.begin(9600);
-
 	// code setup
 	dashLength = dashLengthInMs/pollRate;
 	pauseLength = pauseLengthInMs/pollRate;
@@ -67,6 +63,7 @@ void setup() {
 
 void loop() {
 	if (digitalRead(buttonInputPin) == 1) {
+		consecZero = 0;
 		consecOne++;
 	}
 	else {
@@ -82,13 +79,14 @@ void loop() {
 			consecOne = 0;
 		}
 		consecZero += 1;
-		if (consecZero > pauseLength) {
-			Serial.print(morseWord);
+		if (consecZero > pauseLength && morseWord.length() > 0) {
+			Serial.print(morseWord + '\n');
 			morseWord = "";
 		}
 	}
 	delay(pollRate);
 }
+
 void outPutSymbol(String morseWord) {
 
 }
