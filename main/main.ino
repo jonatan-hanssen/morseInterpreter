@@ -1,8 +1,15 @@
-#define buttonInputPin 2
+// This allows to control a Hitachi HD44780 compatible LCD display
+#include <LiquidCrystal.h>
+
+#define buttonInputPin 7
 #define debugPin 13
 #define pollRate 10 // 10 ms
 
+// The schematic for the LCD can be found here 
+// https://docs.arduino.cc/learn/electronics/lcd-displays
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 
 // number of milliseconds a dash (-) should be. Anything
@@ -61,10 +68,13 @@ String morseLUT[36][2] = {
 };
 
 void setup() {
-	// pin setup
+	// circuitry setup
 	pinMode(debugPin,OUTPUT);
 	pinMode(buttonInputPin,INPUT);
 	Serial.begin(9600);
+	lcd.begin(16,2);
+	lcd.print("hello,world");
+
 	// code setup
 	dashLength = dashLengthInMs/pollRate;
 	pauseLength = pauseLengthInMs/pollRate;
