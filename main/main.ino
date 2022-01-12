@@ -11,7 +11,6 @@ const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-
 // number of milliseconds a dash (-) should be. Anything
 // shorter will be interpreted as a dot (.)
 #define dashLengthInMs 300
@@ -26,6 +25,9 @@ int consecOne = 0; // number of consecutive ones currently
 int pauseLength; // number of consecutive ones needed for a pause
 int consecZero = 0; // number of consecutive zeros
 String morseWord = "";
+
+// this is to handle scrolling of text
+int printedSymbols = 0;
 
 // I thought about using a hashtable, which makes sense and in theory is
 // faster but probably uses way to much memory for such a small list
@@ -78,6 +80,15 @@ void setup() {
 }
 
 void loop() {
+	if (printedSymbols > 11) {
+		// why does this library not include a
+		// variable for this function...
+		lcd.scrollDisplayLeft();
+		lcd.scrollDisplayLeft();
+		lcd.scrollDisplayLeft();
+		lcd.scrollDisplayLeft();
+		printedSymbols = 7;
+	}
 	if (digitalRead(buttonInputPin) == 1) {
 		consecZero = 0;
 		consecOne++;
@@ -98,6 +109,7 @@ void loop() {
 		if (consecZero > pauseLength && morseWord.length() > 0) {
 			lcd.print(outputSymbol(morseWord));
 			morseWord = "";
+			printedSymbols++;
 		}
 	}
 	delay(pollRate);
