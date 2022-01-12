@@ -22,7 +22,7 @@ String morseWord = "";
 
 // I thought about using a hashtable, which makes sense and in theory is
 // faster but probably uses way to much memory for such a small list
-String morseLUT[26][2] = {
+String morseLUT[36][2] = {
 	{".-","A"},
 	{"-...","B"},
 	{"-.-.","C"},
@@ -47,8 +47,17 @@ String morseLUT[26][2] = {
 	{"...-","V"},
 	{".--","W"},
 	{"-..-","X"},
-	{"-.--","Y"},
 	{"--..","Z"},
+	{"-----","0"},
+	{".----","1"},
+	{"..---","2"},
+	{"...--","3"},
+	{"....-","4"},
+	{".....","5"},
+	{"-....","6"},
+	{"--...","7"},
+	{"---..","8"},
+	{"----.","9"},
 };
 
 void setup() {
@@ -80,7 +89,7 @@ void loop() {
 		}
 		consecZero += 1;
 		if (consecZero > pauseLength && morseWord.length() > 0) {
-			Serial.print(outputSymbol(morseWord) + '\n');
+			Serial.print(outputSymbol(morseWord) + ":" + morseWord + '\n');
 			morseWord = "";
 		}
 	}
@@ -88,7 +97,7 @@ void loop() {
 }
 
 String outputSymbol(String morseWord) {
-	for (int i = 0; i < 26; i++) {
+	for (int i = 0; i < 36; i++) {
 		if (morseWord == morseLUT[i][0]) {
 			return morseLUT[i][1];
 		}
