@@ -1,4 +1,4 @@
-// This allows to control a Hitachi HD44780 compatible LCD display
+// This allows us to control a Hitachi HD44780 compatible LCD display
 #include <LiquidCrystal.h>
 
 #define buttonInputPin 7
@@ -23,15 +23,15 @@ int dashLength; // number of consecutive ones needed for a dash
 int consecOne = 0; // number of consecutive ones currently
 
 int pauseLength; // number of consecutive ones needed for a pause
-int consecZero = 0; // number of consecutive zeros
+int consecZero = 0; // number of consecutive zeroes
 String morseWord = "";
 
 // this is to handle scrolling of text
 int printedSymbols = 0;
 
-// I thought about using a hashtable, which makes sense and in theory is
-// faster but probably uses way to much memory for such a small list
-String morseLUT[36][2] = {
+// I thought about using a hashtable, which makes sense and in theory might
+// be faster but probably has way to much overhead for such a small list
+String morseArray[36][2] = {
 	{".-","A"},
 	{"-...","B"},
 	{"-.-.","C"},
@@ -81,7 +81,7 @@ void setup() {
 
 void loop() {
 	if (printedSymbols > 11) {
-		// why does this library not include a
+		// why does LiquidCrystal not include a
 		// variable for this function...
 		lcd.scrollDisplayLeft();
 		lcd.scrollDisplayLeft();
@@ -117,8 +117,8 @@ void loop() {
 
 String outputSymbol(String morseWord) {
 	for (int i = 0; i < 36; i++) {
-		if (morseWord == morseLUT[i][0]) {
-			return morseLUT[i][1];
+		if (morseWord == morseArray[i][0]) {
+			return morseArray[i][1];
 		}
 	}
 	return "?";
