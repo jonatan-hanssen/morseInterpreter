@@ -80,13 +80,18 @@ void loop() {
 		}
 		consecZero += 1;
 		if (consecZero > pauseLength && morseWord.length() > 0) {
-			Serial.print(morseWord + '\n');
+			Serial.print(outputSymbol(morseWord) + '\n');
 			morseWord = "";
 		}
 	}
 	delay(pollRate);
 }
 
-void outPutSymbol(String morseWord) {
-
+String outputSymbol(String morseWord) {
+	for (int i = 0; i < 26; i++) {
+		if (morseWord == morseLUT[i][0]) {
+			return morseLUT[i][1];
+		}
+	}
+	return "?";
 }
