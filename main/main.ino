@@ -71,10 +71,7 @@ void setup() {
 	// circuitry setup
 	pinMode(debugPin,OUTPUT);
 	pinMode(buttonInputPin,INPUT);
-	Serial.begin(9600);
 	lcd.begin(16,2);
-	lcd.print("hello,world");
-
 	// code setup
 	dashLength = dashLengthInMs/pollRate;
 	pauseLength = pauseLengthInMs/pollRate;
@@ -99,7 +96,7 @@ void loop() {
 		}
 		consecZero += 1;
 		if (consecZero > pauseLength && morseWord.length() > 0) {
-			Serial.print(outputSymbol(morseWord) + ":" + morseWord + '\n');
+			lcd.print(outputSymbol(morseWord));
 			morseWord = "";
 		}
 	}
